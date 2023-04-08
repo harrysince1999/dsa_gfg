@@ -97,33 +97,32 @@ class Solution{
     public:
     /* Should return minimum distance between a and b
     in a tree with given root*/
-    Node* lca(Node* root, int a, int b)
-    {
+    Node* lca(Node* root, int a, int b){
         if(root==NULL)  return NULL;
-        if(root->data == a || root->data == b)  return root;
+        if(root->data == a || root->data==b)  return root;
         
         Node* left = lca(root->left,a,b);
         Node* right = lca(root->right,a,b);
         
-        if(left==NULL && right!=NULL)   return right;
-        if(left!=NULL && right==NULL)   return left;
-        if(left!=NULL && right!=NULL)   return root;
-        return NULL;
+        if(left==NULL && right == NULL) return NULL;
+        if(left!=NULL && right == NULL) return left;
+        if(left==NULL && right != NULL) return right;
+        if(left!=NULL && right !=NULL)  return root;
     }
-    int solve(Node* root, int a, int dis)
+    int findDis(Node* root, int a,int dis)
     {
         if(root==NULL)  return -1;
         if(root->data == a) return dis;
-        int left = solve(root->left,a,dis+1);
+        int left = findDis(root->left,a,dis+1);
         if(left!=-1)
             return left;
-        return solve(root->right,a,dis+1);
+        return findDis(root->right,a,dis+1);
     }
     int findDist(Node* root, int a, int b) {
-        Node* anc = lca(root,a,b);
-        int d1 = solve(anc, a,0);
-        int d2 = solve(anc, b,0);
-        return d1+d2;
+        Node* node = lca(root,a,b);
+        int x = findDis(node,a,0);
+        int y = findDis(node,b,0);
+        return x+y;
     }
 };
 
